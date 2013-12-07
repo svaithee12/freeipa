@@ -1,4 +1,4 @@
-freeipa
+Automatically disable inactive users in FreeIPA / Red Hat IdM
 =======
 
 Small scripts and customization for FreeIPA / Red Hat IdM
