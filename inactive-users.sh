@@ -18,7 +18,7 @@ for USER in $USERS; do
         LAST_SUCCESSFUL_AUTH=`ldapsearch -D "uid=$LDAP_USER,cn=users,cn=accounts,$LDAP_DOMAIN" -w '$LDAP_PASSWORD' -b "uid=$USER,cn=users,cn=accounts,$LDAP_DOMAIN" -h $LDAP_SERVER | grep krbLastSuccessfulAuth | awk '{print $2}' | cut -c1-8`
         INACTIVE_LIMIT="30"
         LOCKOUT_LIMIT="90"
-	LIMIT_DATE="$(date "+%Y%m%d" -d "$INACTIVE_LIMIT days ago")"
+	    LIMIT_DATE="$(date "+%Y%m%d" -d "$INACTIVE_LIMIT days ago")"
         LOCKOUT_DATE="$(date "+%Y%m%d" -d "$LOCKOUT_LIMIT days ago")"
         if [ "$LAST_SUCCESSFUL_AUTH" != "" ]; then
                 if [ "$LOCKOUT_DATE" -gt "$LAST_SUCCESSFUL_AUTH" ]; then
@@ -27,7 +27,7 @@ for USER in $USERS; do
                 elif [ "$LIMIT_DATE" -gt "$LAST_SUCCESSFUL_AUTH" ]; then
                         echo "User has been inactive for more than 30 days."
                         echo "Disabling user..."
-                        echo "ipa user-disable $USER"
+                        DISABLE_EXEC=$(ipa user-disable $USER)
                 else
                         echo "$USER is active, moving on..."
                 fi
